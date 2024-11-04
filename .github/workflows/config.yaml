@@ -1,4 +1,4 @@
-name: Compile LaTeX and Generate HTML Index
+name: Compile LaTeX and Deploy to GitHub Pages
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
       run: |
         mkdir -p output
         for file in *.tex; do
-          pdflatex -output-directory=output "$file"
+          pdflatex -interaction=nonstopmode -output-directory=output "$file"
         done
 
     - name: Generate HTML index
@@ -33,8 +33,9 @@ jobs:
         done
         echo "</ul></body></html>" >> output/index.html
 
-    - name: Upload PDF and HTML index
-      uses: actions/upload-artifact@v3
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        name: pdf-files
-        path: output/*
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./output
+        publish_branch: main # Cambia con il nome della tua branch se necessario
