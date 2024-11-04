@@ -23,7 +23,9 @@ def generate_html():
                 
                 # Controlla se il PDF esiste
                 if os.path.isfile(pdf_path):
-                    html_content += f'<li><a href="{pdf_file}">{pdf_file}</a></li>\n'
+                    # Link senza l'estensione .pdf
+                    link_text = os.path.splitext(pdf_file)[0]  # Nome del file senza estensione
+                    html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
                 else:
                     html_content += f'<li>{pdf_file} (PDF non trovato)</li>\n'
                     
