@@ -30,18 +30,10 @@ jobs:
 
     - name: Generate HTML index
       run: |
-        echo "<html><body>" > output/index.html
-        current_dir=""
+        echo "<html><body><h1>PDF Files</h1><ul>" > output/index.html
         for pdf in output/*.pdf; do
           pdf_file=$(basename "$pdf")
-          dir_name=$(dirname "$pdf" | sed 's|^\./||')  # Get directory name without leading ./
           
-          # If current_dir changes, output an <h1> tag
-          if [ "$current_dir" != "$dir_name" ]; then
-            current_dir="$dir_name"
-            echo "<h1>$current_dir</h1>" >> output/index.html
-          fi
-
           echo "<li><a href=\"$pdf_file\">$pdf_file</a></li>" >> output/index.html
         done
         echo "</ul></body></html>" >> output/index.html
