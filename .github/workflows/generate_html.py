@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 # Directory di output dove si trovano i PDF e il file HTML
 output_dir = 'output'
@@ -16,7 +17,8 @@ def generate_html():
             html_content += f"<h1>{folder_name}</h1>\n"
             html_content += "<ul>\n"
 
-            pdf_links = []
+            pdf_links_with_dates = []
+            pdf_links_without_dates = []
 
             for tex_file in tex_files:
                 # Crea il nome del PDF corrispondente
@@ -29,15 +31,21 @@ def generate_html():
                     date_str = os.path.splitext(tex_file)[0][-10:]  # Assumendo formato nomefile-yyyy-mm-gg
                     try:
                         date = datetime.strptime(date_str, '%Y-%m-%d')
+                        pdf_links_with_dates.append((pdf_file, date))
                     except ValueError:
-                        date = None  # Non riesce a estrarre la data, ma non ignoriamo il file
-                    
-                    pdf_links.append((pdf_file, date))  # Aggiungi il file anche se non c'è una data valida
+                        pdf_links_without_dates.append(pdf_file)  # Aggiungi senza data
 
-            # Non ordiniamo, ma includiamo tutti i link
-            for pdf_file, _ in pdf_links:
-                # Link senza l'estensione .pdf
-                link_text = os.path.splitext(pdf_file)[0]
+            # Ordina i link per data, dal più recente al più vecchio
+            pdf_links_with_dates.sort(key=lambda x: x[1], reverse=True)
+
+            # Aggiungi i file con data
+            for pdf_file, _ in pdf_links_with_dates:
+                link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
+                html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
+
+            # Aggiungi i file senza data
+            for pdf_file in pdf_links_without_dates:
+                link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
             html_content += "</ul>\n"
