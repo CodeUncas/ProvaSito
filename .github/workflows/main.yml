@@ -1,61 +1,46 @@
-name: Compile LaTeX and Deploy to GitHub Pages
+name: Compile LaTeX and Publish
 
 on:
   push:
     branches:
       - main
-  pull_request:
-  
-permissions:
-  id-token: write  # Grant permission for ID token
-  contents: write   # Needed to push to the repository
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up TeX Live
-      run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+      run: sudo apt-get install texlive-full
 
-    - name: Compile .tex files to .pdf
+    - name: Compile LaTeX files
       run: |
         mkdir -p output
-        for file in *.tex; do
-          pdflatex -interaction=nonstopmode -output-directory=output "$file"
+        for file in tex/*.tex; do
+          pdflatex -output-directory=output "$file" || exit 1
         done
 
-    - name: Generate HTML index
-      run: |
-        echo "<html><body><h1>PDF Files</h1><ul>" > output/index.html
-        for pdf in output/*.pdf; do
-          pdf_file=$(basename "$pdf")
-          echo "<li><a href=\"$pdf_file\">$pdf_file</a></li>" >> output/index.html
-        done
-        echo "</ul></body></html>" >> output/index.html
-
-    - name: Upload artifacts
+    - name: Upload PDFs as artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: pdf-files
-        path: output/
+        name: pdfs
+        path: output/*.pdf
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
+    - name: Generate HTML for GitHub Pages
+      run: |
+        echo "<html><body>" > index.html
+        echo "<h1>Documentazione PDF</h1>" >> index.html
+        for pdf in output/*.pdf; do
+          title=$(basename "$pdf" .pdf)
+          echo "<h2>${title}</h2><a href='output/${title}.pdf'>Download ${title}</a><br>" >> index.html
+        done
+        echo "</body></html>" >> index.html
 
-    steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
+    - name: Upload HTML as artifact
+      uses: actions/upload-artifact@v3
       with:
-        name: pdf-files
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./output
+        name: index-html
+        path: index.html
