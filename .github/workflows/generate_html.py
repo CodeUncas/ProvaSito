@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 # Directory di output dove si trovano i PDF e il file HTML
 output_dir = 'output'
@@ -15,7 +16,9 @@ def generate_html():
             folder_name = os.path.basename(root)
             html_content += f"<h1>{folder_name}</h1>\n"
             html_content += "<ul>\n"
-            
+
+            pdf_links = []
+
             for tex_file in tex_files:
                 # Crea il nome del PDF corrispondente
                 pdf_file = os.path.splitext(tex_file)[0] + '.pdf'
@@ -23,12 +26,22 @@ def generate_html():
                 
                 # Controlla se il PDF esiste
                 if os.path.isfile(pdf_path):
-                    # Link senza l'estensione .pdf
-                    link_text = os.path.splitext(pdf_file)[0]  # Nome del file senza estensione
-                    html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
-                else:
-                    html_content += f'<li>{pdf_file} (PDF non trovato)</li>\n'
-                    
+                    # Estrai la data dal nome del file
+                    date_str = os.path.splitext(tex_file)[0][-10:]  # Assumendo formato nomefile-yyyy-mm-gg
+                    try:
+                        date = datetime.strptime(date_str, '%Y-%m-%d')
+                        pdf_links.append((pdf_file, date))
+                    except ValueError:
+                        pdf_links.append((pdf_file, None))  # Aggiungi None se non riesce a parse
+
+            # Ordina i link per data, dal più recente al più vecchio
+            pdf_links.sort(key=lambda x: x[1], reverse=True)
+
+            for pdf_file, _ in pdf_links:
+                # Link senza l'estensione .pdf
+                link_text = os.path.splitext(pdf_file)[0]
+                html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
+
             html_content += "</ul>\n"
 
     html_content += "</body></html>\n"
