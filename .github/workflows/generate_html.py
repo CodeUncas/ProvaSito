@@ -1,26 +1,40 @@
-import os
+import requests
 
-output_dir = 'output'
-index_file = os.path.join(output_dir, 'index.html')
+# Imposta il tuo repository GitHub
+owner = 'username'  # Sostituisci con il tuo username
+repo = 'repository-name'  # Sostituisci con il nome del tuo repository
+url = f'https://api.github.com/repos/{owner}/{repo}/contents'
 
-# Crea un dizionario per tenere traccia delle cartelle e dei loro PDF
-folder_dict = {}
+# Funzione per ottenere i file e le directory
+def fetch_contents(path=''):
+    response = requests.get(f'{url}/{path}')
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error fetching contents: {response.status_code}")
+        return []
 
-# Scansiona la cartella output per i file PDF
-for root, dirs, files in os.walk(output_dir):
-    pdf_files = [f for f in files if f.endswith('.pdf')]
-    if pdf_files:
-        folder_name = os.path.relpath(root, output_dir)
-        folder_dict[folder_name] = pdf_files
+# Funzione per generare l'HTML
+def generate_html(contents):
+    html_content = "<html><body>\n"
+    for item in contents:
+        if item['type'] == 'dir':
+            html_content += f"<h1>{item['name']}</h1>\n"
+            sub_contents = fetch_contents(item['path'])
+            html_content += "<ul>\n"
+            for sub_item in sub_contents:
+                if sub_item['type'] == 'file' and sub_item['name'].endswith('.pdf'):
+                    html_content += f'<li><a href="{sub_item["download_url"]}">{sub_item["name"]}</a></li>\n'
+            html_content += "</ul>\n"
+    html_content += "</body></html>\n"
+    return html_content
 
-# Genera l'HTML
-with open(index_file, 'w') as f:
-    f.write("<html><body>\n")
-    for folder, pdfs in folder_dict.items():
-        # Aggiungi il titolo della cartella
-        f.write(f"<h1>{folder}</h1>\n")
-        f.write("<ul>\n")
-        for pdf in pdfs:
-            f.write(f'<li><a href="{pdf}">{pdf}</a></li>\n')
-        f.write("</ul>\n")
-    f.write("</body></html>\n")
+# Ottieni i contenuti dalla root del repository
+contents = fetch_contents()
+html_output = generate_html(contents)
+
+# Scrivi il file HTML
+with open('output/index.html', 'w') as f:
+    f.write(html_output)
+
+print("HTML index created successfully.")
