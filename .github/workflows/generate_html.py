@@ -4,7 +4,7 @@ from datetime import datetime
 
 # Directory di output dove si trovano i PDF e il file HTML
 output_dir = 'output'
-sitoweb_dir = './sitoweb'
+sitoweb_dir = 'sitoweb'  # Percorso della cartella 'sitoweb' nella root del repository
 
 # Funzione per generare l'HTML
 def generate_html():
@@ -66,13 +66,19 @@ def generate_html():
 
     return html_content
 
-# Funzione per copiare la cartella sitoweb
-def copy_sitoweb():
-    shutil.copytree(sitoweb_dir, os.path.join(output_dir, sitoweb_dir), dirs_exist_ok=True)
+# Funzione per copiare i file da sitoweb a output
+def copy_sitoweb_files():
+    for item in os.listdir(sitoweb_dir):
+        src = os.path.join(sitoweb_dir, item)
+        dst = os.path.join(output_dir, item)
+        if os.path.isdir(src):
+            shutil.copytree(src, dst, dirs_exist_ok=True)  # Copia le directory
+        else:
+            shutil.copy2(src, dst)  # Copia i file
 
 # Funzione per inserire contenuto nell'index.html di sitoweb
 def insert_content_into_html(content):
-    sitoweb_index_path = os.path.join(output_dir, sitoweb_dir, 'index.html')
+    sitoweb_index_path = os.path.join(output_dir, 'index.html')  # File index.html in output
 
     with open(sitoweb_index_path, 'r') as f:
         html_lines = f.readlines()
@@ -89,14 +95,15 @@ def insert_content_into_html(content):
             html_lines.insert(close_main_index, content + "\n")
             break
 
+    # Scrive nuovamente il file HTML
     with open(sitoweb_index_path, 'w') as f:
         f.writelines(html_lines)
 
 # Assicurati che la cartella output esista
 os.makedirs(output_dir, exist_ok=True)
 
-# Copia la cartella sitoweb nella cartella output
-copy_sitoweb()
+# Copia i file da sitoweb nella cartella output
+copy_sitoweb_files()
 
 # Genera il contenuto HTML
 html_output = generate_html()
