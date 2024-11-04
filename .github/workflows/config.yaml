@@ -33,9 +33,15 @@ jobs:
         done
         echo "</ul></body></html>" >> output/index.html
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./output
-        publish_branch: main # Cambia con il nome della tua branch se necessario
+    - name: Move output to docs
+      run: |
+        mkdir -p docs
+        mv output/* docs/
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.name "github-actions"
+        git config --local user.email "github-actions@github.com"
+        git add docs/*
+        git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
+        git push origin main
