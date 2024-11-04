@@ -1,4 +1,4 @@
-name: Compile LaTeX and Deploy to GitHub Pages
+name: Compile TeX files and Upload Artifacts
 
 on:
   push:
@@ -6,58 +6,59 @@ on:
       - main
   pull_request:
 
-permissions:
-  id-token: write  # Grant permission for ID token
-  contents: write   # Needed to push to the repository
-  pages: write      # Needed to deploy to GitHub Pages
-
 jobs:
-  build:
+  compile:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Check out the repository
+        uses: actions/checkout@v3
 
-    - name: Set up TeX Live
-      run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+      - name: Set up LaTeX environment
+        run: sudo apt-get update && sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended
 
-    - name: Compile .tex files to .pdf
-      run: |
-        mkdir -p output
-        for file in *.tex; do
-          pdflatex -interaction=nonstopmode -output-directory=output "$file"
-        done
+      - name: Compile TeX files in subfolders
+        run: |
+          mkdir -p output
+          for category in $(find categories -mindepth 1 -type d); do
+            category_name=$(basename "$category")
+            if [[ "$category_name" == "images" ]]; then continue; fi
+            mkdir -p "output/$category_name"
+            for texfile in "$category"/*.tex; do
+              pdflatex -output-directory="output/$category_name" "$texfile"
+              find "output/$category_name" -type f ! -name '*.pdf' -delete
+            done
+          done
 
-    - name: Generate HTML index
-      run: |
-        echo "<html><body><h1>PDF Files</h1><ul>" > output/index.html
-        for pdf in output/*.pdf; do
-          pdf_file=$(basename "$pdf")
-          echo "<li><a href=\"$pdf_file\">$pdf_file</a></li>" >> output/index.html
-        done
-        echo "</ul></body></html>" >> output/index.html
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: github-pages
-        path: output/
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdf-files
+          path: output/
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: compile
 
     steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: github-pages
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: pdf-files
 
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./output
+      - name: Generate HTML Index with Python
+        run: python3 .github/workflows/generate_index.py
+        env:
+          OUTPUT_PATH: docs/index.html  # Output path for index.html in the docs directory
 
+      - name: Commit and Push to main/docs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p docs
+          mv output/* docs/
+          git add docs
+          git commit -m "Update compiled PDFs and index in docs" || echo "No changes to commit"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
