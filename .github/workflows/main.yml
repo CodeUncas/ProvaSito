@@ -14,12 +14,12 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up TeX Live
-      run: sudo apt-get install texlive-full
+      run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
 
     - name: Compile LaTeX files
       run: |
         mkdir -p output
-        for file in tex/*.tex; do
+        for file in *.tex; do
           pdflatex -output-directory=output "$file" || exit 1
         done
 
