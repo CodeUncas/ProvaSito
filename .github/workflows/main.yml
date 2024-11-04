@@ -61,5 +61,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./output
 
-    - name: Output GitHub Pages URL
-      run: echo "Deployed to GitHub Pages: ${{ steps.deployment.outputs.page_url }}"
