@@ -1,0 +1,40 @@
+name: Compile LaTeX and Generate HTML Index
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up TeX Live
+      run: sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+
+    - name: Compile .tex files to .pdf
+      run: |
+        mkdir -p output
+        for file in *.tex; do
+          pdflatex -interaction=nonstopmode -output-directory=output "$file"
+        done
+
+    - name: Generate HTML index
+      run: |
+        echo "<html><body><h1>PDF Files</h1><ul>" > output/index.html
+        for pdf in output/*.pdf; do
+          pdf_file=$(basename "$pdf")
+          echo "<li><a href=\"$pdf_file\">$pdf_file</a></li>" >> output/index.html
+        done
+        echo "</ul></body></html>" >> output/index.html
+
+    - name: Upload PDF and HTML index
+      uses: actions/upload-artifact@v2
+      with:
+        name: pdf-files
+        path: output/*
