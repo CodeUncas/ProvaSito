@@ -30,7 +30,7 @@ jobs:
 
     - name: Generate HTML index with Python
       run: |
-        python3 generate_html.py
+        python3 .github/workflows/generate_html.py
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
