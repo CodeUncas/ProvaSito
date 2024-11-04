@@ -32,9 +32,10 @@ def generate_html():
                         date = datetime.strptime(date_str, '%Y-%m-%d')
                         pdf_links.append((pdf_file, date))
                     except ValueError:
-                        pdf_links.append((pdf_file, None))  # Aggiungi None se non riesce a parse
+                        # Aggiungi None se non riesce a parse, ignorando questi file
+                        continue
 
-            # Ordina i link per data, dal più recente al più vecchio
+            # Ordina i link per data, dal più recente al più vecchio, escludendo i None
             pdf_links.sort(key=lambda x: x[1], reverse=True)
 
             for pdf_file, _ in pdf_links:
