@@ -4,7 +4,7 @@ from datetime import datetime
 
 # Directory di output dove si trovano i PDF e il file HTML
 output_dir = 'output'
-sitoweb_dir = 'sitoweb'
+sitoweb_dir = './sitoweb'
 
 # Funzione per generare l'HTML
 def generate_html():
