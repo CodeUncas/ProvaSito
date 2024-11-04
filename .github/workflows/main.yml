@@ -33,7 +33,7 @@ jobs:
         done
         echo "</ul></body></html>" >> output/index.html
 
-    - name: Upload PDFs and index as artifacts
+    - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: pdf-files
@@ -50,7 +50,8 @@ jobs:
         name: pdf-files
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      id: deployment
+      uses: actions/deploy-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./output
