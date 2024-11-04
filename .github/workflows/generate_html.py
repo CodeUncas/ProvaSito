@@ -1,8 +1,9 @@
+import os
 import requests
 
-# Imposta il tuo repository GitHub
-owner = 'username'  # Sostituisci con il tuo username
-repo = 'repository-name'  # Sostituisci con il nome del tuo repository
+# Ottieni il nome della repository dalla directory corrente
+repo = os.path.basename(os.getcwd())  # Nome della directory corrente
+owner = 'username'  # Sostituisci con il tuo username su GitHub
 url = f'https://api.github.com/repos/{owner}/{repo}/contents'
 
 # Funzione per ottenere i file e le directory
@@ -34,7 +35,9 @@ contents = fetch_contents()
 html_output = generate_html(contents)
 
 # Scrivi il file HTML
-with open('output/index.html', 'w') as f:
+output_dir = 'output'
+os.makedirs(output_dir, exist_ok=True)  # Crea la directory output se non esiste
+with open(os.path.join(output_dir, 'index.html'), 'w') as f:
     f.write(html_output)
 
 print("HTML index created successfully.")
