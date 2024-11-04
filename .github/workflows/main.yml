@@ -33,9 +33,11 @@ jobs:
 
     - name: Create index.html
       run: |
-        echo "<html><body><h1>Documenti PDF</h1><ul>" > output/index.html
+        # Estrai il nome della directory se esiste
+        dir_name=$(basename "$(pwd)")
+        echo "<html><body><h1>$dir_name</h1><h1>Documenti PDF</h1><ul>" > output/index.html
         for pdf in output/*.pdf; do
-          filename=$(basename "$pdf")
+          filename=$(basename "$pdf" .pdf)  # Rimuovi l'estensione .pdf
           echo "<li><a href=\"${{ github.run_id }}/$filename\">$filename</a></li>" >> output/index.html
         done
         echo "</ul></body></html>" >> output/index.html
