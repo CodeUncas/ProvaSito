@@ -40,7 +40,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: pdf-files
+        name: github-pages
         path: output/
 
   deploy:
@@ -51,7 +51,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
-        name: pdf-files
+        name: github-pages
 
     - name: Deploy to GitHub Pages
       id: deployment
