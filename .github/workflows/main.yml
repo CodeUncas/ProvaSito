@@ -1,46 +1,74 @@
-name: Compile LaTeX and Publish
+name: Build LaTeX documents
 
-on:
-  push:
-    branches:
-      - main
+on: [push, workflow_dispatch]
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install basic LaTeX packages
+        run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra
+
+      - name: Compile LaTeX files
+        run: |
+          mkdir -p dist
+          for file in *.tex; do
+            pdflatex -output-directory=dist "$file" || exit 1
+          done
+
+      - name: Generate HTML index
+        run: |
+          echo "<html><body>" > dist/index.html
+          echo "<h1>Documentazione PDF</h1>" >> dist/index.html
+          for pdf in dist/*.pdf; do
+            title=$(basename "$pdf" .pdf)
+            echo "<h2>${title}</h2><a href='${title}.pdf'>Download ${title}</a><br>" >> dist/index.html
+          done
+          echo "</body></html>" >> dist/index.html
+
+      - name: Upload website files
+        uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: Website
+          path: "./dist"
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up TeX Live
-      run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+      - name: Download website files
+        uses: actions/download-artifact@v4
+        with:
+          name: "Website"
 
-    - name: Compile LaTeX files
-      run: |
-        mkdir -p output
-        for file in *.tex; do
-          pdflatex -output-directory=output "$file" || exit 1
-        done
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-    - name: Upload PDFs as artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: pdfs
-        path: output/*.pdf
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "dist"  # Assicurati di puntare alla directory contenente i PDF e l'index HTML
 
-    - name: Generate HTML for GitHub Pages
-      run: |
-        echo "<html><body>" > index.html
-        echo "<h1>Documentazione PDF</h1>" >> index.html
-        for pdf in output/*.pdf; do
-          title=$(basename "$pdf" .pdf)
-          echo "<h2>${title}</h2><a href='output/${title}.pdf'>Download ${title}</a><br>" >> index.html
-        done
-        echo "</body></html>" >> index.html
-
-    - name: Upload HTML as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: index-html
-        path: index.html
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
