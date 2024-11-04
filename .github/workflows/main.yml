@@ -1,9 +1,10 @@
-name: Compile LaTeX and Upload Artifacts
+name: Compile LaTeX and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Modifica questo se usi un altro branch
+      - main
+  pull_request:
 
 jobs:
   build:
@@ -11,39 +12,45 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Set up LaTeX
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+    - name: Set up TeX Live
+      run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
 
-    - name: Compile LaTeX files
+    - name: Compile .tex files to .pdf
       run: |
         mkdir -p output
         for file in *.tex; do
-          pdflatex -interaction=nonstopmode -output-directory=output "$file" || exit 1
+          pdflatex -interaction=nonstopmode -output-directory=output "$file"
         done
 
-    - name: Upload PDF artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: pdf-files
-        path: output/*.pdf
-
-    - name: Create index.html
+    - name: Generate HTML index
       run: |
-        # Estrai il nome della directory se esiste
-        dir_name=$(basename "$(pwd)")
-        echo "<html><body><h1>$dir_name</h1><h1>Documenti PDF</h1><ul>" > output/index.html
+        echo "<html><body><h1>PDF Files</h1><ul>" > output/index.html
         for pdf in output/*.pdf; do
-          filename=$(basename "$pdf" .pdf)  # Rimuovi l'estensione .pdf
-          echo "<li><a href=\"${{ github.run_id }}/$filename\">$filename</a></li>" >> output/index.html
+          pdf_file=$(basename "$pdf")
+          echo "<li><a href=\"$pdf_file\">$pdf_file</a></li>" >> output/index.html
         done
         echo "</ul></body></html>" >> output/index.html
 
-    - name: Upload index.html as artifact
+    - name: Upload PDFs and index as artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: index-file
-        path: output/index.html
+        name: pdf-files
+        path: output/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: pdf-files
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./output
