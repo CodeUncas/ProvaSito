@@ -38,13 +38,15 @@ def generate_html():
             # Ordina i link per data, dal più recente al più vecchio
             pdf_links_with_dates.sort(key=lambda x: x[1], reverse=True)
 
-            # Aggiungi i file con data
-            for pdf_file, _ in pdf_links_with_dates:
-                link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
-                html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
             # Aggiungi i file senza data
             for pdf_file in pdf_links_without_dates:
+                link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
+                html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
+
+            
+            # Aggiungi i file con data
+            for pdf_file, _ in pdf_links_with_dates:
                 link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
