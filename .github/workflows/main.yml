@@ -1,0 +1,47 @@
+name: Compile LaTeX and Upload Artifacts
+
+on:
+  push:
+    branches:
+      - main  # Modifica questo se usi un altro branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up LaTeX
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+
+    - name: Compile LaTeX files
+      run: |
+        mkdir -p output
+        for file in *.tex; do
+          pdflatex -interaction=nonstopmode -output-directory=output "$file" || exit 1
+        done
+
+    - name: Upload PDF artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: pdf-files
+        path: output/*.pdf
+
+    - name: Create index.html
+      run: |
+        echo "<html><body><h1>Documenti PDF</h1><ul>" > output/index.html
+        for pdf in output/*.pdf; do
+          filename=$(basename "$pdf")
+          echo "<li><a href=\"${{ github.run_id }}/$filename\">$filename</a></li>" >> output/index.html
+        done
+        echo "</ul></body></html>" >> output/index.html
+
+    - name: Upload index.html as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: index-file
+        path: output/index.html
