@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 # Directory di output dove si trovano i PDF e il file HTML
 output_dir = 'output'
@@ -30,14 +29,12 @@ def generate_html():
                     date_str = os.path.splitext(tex_file)[0][-10:]  # Assumendo formato nomefile-yyyy-mm-gg
                     try:
                         date = datetime.strptime(date_str, '%Y-%m-%d')
-                        pdf_links.append((pdf_file, date))
                     except ValueError:
-                        # Aggiungi None se non riesce a parse, ignorando questi file
-                        continue
+                        date = None  # Non riesce a estrarre la data, ma non ignoriamo il file
+                    
+                    pdf_links.append((pdf_file, date))  # Aggiungi il file anche se non c'è una data valida
 
-            # Ordina i link per data, dal più recente al più vecchio, escludendo i None
-            pdf_links.sort(key=lambda x: x[1], reverse=True)
-
+            # Non ordiniamo, ma includiamo tutti i link
             for pdf_file, _ in pdf_links:
                 # Link senza l'estensione .pdf
                 link_text = os.path.splitext(pdf_file)[0]
