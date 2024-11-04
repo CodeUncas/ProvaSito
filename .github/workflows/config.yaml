@@ -21,7 +21,7 @@ jobs:
       run: |
         mkdir -p output
         for file in *.tex; do
-          pdflatex -interaction=nonstopmode -output-directory=output "$file"
+          pdflatex -output-directory=output "$file"
         done
 
     - name: Generate HTML index
