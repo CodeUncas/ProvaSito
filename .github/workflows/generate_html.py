@@ -11,10 +11,22 @@ def generate_html():
     # Scansiona le directory per trovare i file .tex
     for root, dirs, files in os.walk('.'):
         tex_files = [f for f in files if f.endswith('.tex')]
+        
         if tex_files:
-            # Ottieni il nome della cartella corrente
+            # Calcola il livello di annidamento
+            level = root.count(os.sep)  # Conta il numero di separatori di percorso
             folder_name = os.path.basename(root)
-            html_content += f"<h1>{folder_name}</h1>\n"
+
+            # Aggiungi intestazione appropriata in base al livello
+            if level == 0:
+                html_content += f"<h1>{folder_name}</h1>\n"
+            elif level == 1:
+                html_content += f"<h2>{folder_name}</h2>\n"
+            elif level == 2:
+                html_content += f"<h3>{folder_name}</h3>\n"
+            else:
+                html_content += f"<h4>{folder_name}</h4>\n"
+                
             html_content += "<ul>\n"
 
             pdf_links_with_dates = []
@@ -38,15 +50,13 @@ def generate_html():
             # Ordina i link per data, dal più recente al più vecchio
             pdf_links_with_dates.sort(key=lambda x: x[1], reverse=True)
 
-
-            # Aggiungi i file senza data
-            for pdf_file in pdf_links_without_dates:
+            # Aggiungi i file con data
+            for pdf_file, _ in pdf_links_with_dates:
                 link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
-            
-            # Aggiungi i file con data
-            for pdf_file, _ in pdf_links_with_dates:
+            # Aggiungi i file senza data
+            for pdf_file in pdf_links_without_dates:
                 link_text = os.path.splitext(pdf_file)[0]  # Nome senza estensione
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
