@@ -100,6 +100,8 @@ ul li a {
     font-size: 18px;
     margin-left: 25px;
     transition: color 0.3s ease, transform 0.3s ease; /* Aggiunto effetto di ingrandimento */
+    display: inline-block; /* Necessario per poter usare 'transform' su inline elements */
+
 }
 
 /* Effetto hover sui link */
