@@ -4,7 +4,6 @@ from datetime import datetime
 
 output_dir = 'output'
 sitoweb_dir = 'sitoweb'
-
 def generate_html():
     html_content = ""
 
@@ -15,6 +14,25 @@ def generate_html():
         dirs.sort()
 
         tex_files = [f for f in files if f.endswith('.tex')]
+        subdirs_with_tex = []
+
+        # Aggiungi un controllo speciale per la cartella "verbali esterni"
+        if 'verbali esterni' in root:
+            # Qui dovresti aggiungere i link ai file PDF provenienti da GitHub
+            # Supponiamo che i link siano predefiniti (devi sostituire questi con i tuoi URL reali)
+            pdf_links_from_github = [
+                'https://github.com/tua-repo/path-to-verbali-esterni/verbale1.pdf',
+                'https://github.com/tua-repo/path-to-verbali-esterni/verbale2.pdf'
+            ]
+            
+            # Aggiungi la sezione HTML per questi link
+            html_content += "<h3>Verbali Esterni</h3>\n<ul>\n"
+            for pdf_url in pdf_links_from_github:
+                pdf_filename = pdf_url.split('/')[-1]  # Estrai il nome del file
+                html_content += f'<li><a href="{pdf_url}">{pdf_filename}</a></li>\n'
+            html_content += "</ul>\n"
+            continue  # Salta la parte successiva per questa cartella
+
         subdirs_with_tex = []
 
         if tex_files:
