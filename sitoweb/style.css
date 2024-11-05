@@ -89,7 +89,7 @@ ul li::before {
     top: 50%;
     transform: translateY(-50%); /* Centra verticalmente */
     font-size: 18px;
-    margin-left: 25px; /* Tabula il link a destra rispetto al titolo */
+    margin-left: 30px; /* Tabula il link a destra rispetto al titolo */
     color: #2980b9; /* Colore blu chiaro */
 }
 
@@ -98,7 +98,7 @@ ul li a {
     text-decoration: none;
     color: #2980b9; /* Colore iniziale blu chiaro per i link */
     font-size: 18px;
-    margin-left: 25px;
+    margin-left: 35px;
     transition: color 0.3s ease, transform 0.3s ease; /* Aggiunto effetto di ingrandimento */
     display: inline-block; /* Necessario per poter usare 'transform' su inline elements */
 
@@ -107,7 +107,7 @@ ul li a {
 /* Effetto hover sui link */
 ul li a:hover {
     color: #3498db; /* Colore blu più brillante al passaggio del mouse */
-    transform: scale(2.0); /* Aumentato l'ingrandimento del link al passaggio del mouse */
+    transform: scale(1.3); /* Aumentato l'ingrandimento del link al passaggio del mouse */
 }
 
 /* Spaziatura generale */
