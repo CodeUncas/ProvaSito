@@ -26,7 +26,7 @@ jobs:
       run: |
         mkdir -p output
         find . -name "*.tex" | while read file; do
-          pdflatex "$file"
+          pdflatex -output-directory=build "$file"
         done
 
     - name: Generate HTML index with Python
