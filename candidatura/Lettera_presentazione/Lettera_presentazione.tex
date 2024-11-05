@@ -6,25 +6,10 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{eso-pic}   % Per aggiungere sfondi
 
 
 
-%cambio misure della pagina
-\geometry{a4paper,left=20mm,right=20mm,top=20mm}
-
-\AddToShipoutPictureBG{ % Imposta il triangolo con logo
-    \begin{tikzpicture}[overlay]
-    
-        % Definisce un triangolo blu in basso a destra
-        \fill[black] 
-            (current page.south east) -- ++(-3cm,0) -- ++(3cm,3cm) -- cycle;
-        
-        % Inserisce il logo all'interno del triangolo
-        \node[anchor=south east, xshift=-0cm, yshift=0cm] at (current page.south east) {
-            \includegraphics[width=1.5cm]{SevenbitslogoW}
-        };
-    \end{tikzpicture}
-}
 
 
 \title{Lettera di presentazione}
