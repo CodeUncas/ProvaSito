@@ -53,26 +53,28 @@ header .group-description p {
 
 /* Titolo principale centrato */
 h1 {
-    font-size: 28px;
+    font-size: 30px;
     text-align: left; /* Allineato a sinistra */
     margin-bottom: 20px;
-    color: #2c3e50; /* Colore blu scuro per il titolo */
+    color: #1a1a1a; /* Colore molto scuro per h1 */
     margin-left: 20px; /* Distanza a sinistra per allineare meglio con i link */
 }
 
 /* Titoli secondari (h2) */
 h2 {
-    font-size: 22px;
+    font-size: 24px;
     text-align: left; /* Allineato a sinistra */
     margin-bottom: 15px;
-    color: #2c3e50; /* Colore blu scuro per gli h2 */
+    color: #333333; /* Colore grigio scuro per h2 */
     margin-left: 28px; /* Distanza a sinistra per allineare meglio con i link */
 }
+
+/* Titoli terziari (h3) */
 h3 {
     font-size: 18px;
     text-align: left; /* Allineato a sinistra */
     margin-bottom: 15px;
-    color: #2c3e50; /* Colore blu scuro per gli h2 */
+    color: #666666; /* Colore grigio chiaro per h3 */
     margin-left: 40px; /* Distanza a sinistra per allineare meglio con i link */
 }
 
