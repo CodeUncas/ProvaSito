@@ -48,22 +48,35 @@ header .group-description p {
     color: #555; /* Colore più scuro per il testo */
 }
 
-/* Stile per i titoli delle cartelle */
-h1, h2 {
+/* Titolo principale centrato */
+h1 {
     font-size: 24px;
-    margin: 10px 0;
     text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Lista dei link */
+ul {
+    list-style-type: none; /* Rimuove i punti elenco */
+    padding: 0;
+    text-align: center; /* Centra i link */
+}
+
+/* Elementi della lista */
+ul li {
+    margin: 15px 0; /* Distanza tra i vari elementi */
 }
 
 /* Link alle cartelle */
-h1 a, h2 a {
+ul li a {
     text-decoration: none;
     color: #007BFF; /* Colore iniziale del link */
+    font-size: 18px;
     transition: color 0.3s ease;
 }
 
 /* Effetto hover sui link */
-h1 a:hover, h2 a:hover {
+ul li a:hover {
     color: #0056b3; /* Colore al passaggio del mouse */
 }
 
