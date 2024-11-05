@@ -27,7 +27,7 @@ def generate_html():
             ]
             
             # Aggiungi la sezione HTML per questi link
-            html_content += "<h3>Verbali Esterni</h3>\n<ul>\n"
+            html_content += "<h3>Esterni</h3>\n<ul>\n"
             for pdf_url in pdf_links_from_github:
                 pdf_filename = pdf_url.split('/')[-1]  # Estrai il nome del file
                 html_content += f'<li><a href="{pdf_url}">{pdf_filename}</a></li>\n'
