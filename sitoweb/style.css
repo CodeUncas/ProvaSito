@@ -89,6 +89,7 @@ ul li::before {
     transform: translateY(-50%); /* Centra verticalmente */
     font-size: 18px;
     margin-left: 35px; /* Tabula il link a destra rispetto al titolo */
+    margin-right: 10px;
     color: #2980b9; /* Colore blu chiaro */
 }
 
