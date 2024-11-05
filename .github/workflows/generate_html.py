@@ -1,6 +1,11 @@
+
 import os
+import shutil
 from datetime import datetime
 
+# Directory di output dove si trovano i PDF e il file HTML
+output_dir = 'output'
+sitoweb_dir = 'sitoweb'  # Percorso della cartella 'sitoweb' nella root del repository
 # Funzione per generare l'HTML
 def generate_html():
     html_content = ""
