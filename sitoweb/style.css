@@ -5,38 +5,54 @@
     box-sizing: border-box;
 }
 
-/* Stile generali della pagina */
+/* Impostazioni generali per il body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f0f8ff; /* Colore di sfondo carino, simile a un azzurro chiaro */
     color: #333;
     line-height: 1.6;
-    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+/* Contenitore centrale per il contenuto */
+.container {
+    background-color: #ffffff; /* Sfondo bianco per il contenuto */
+    padding: 30px;
+    border-radius: 8px; /* Angoli arrotondati per il contenitore */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra per profondità */
+    width: 90%;
+    max-width: 800px; /* Limita la larghezza massima */
 }
 
 /* Header con l'icona e la descrizione */
 header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     margin-bottom: 40px;
 }
 
 header .logo img {
-    width: 50px; /* Dimensione dell'icona */
+    width: 70px; /* Dimensione dell'icona */
     height: auto;
-    margin-right: 20px;
+    margin-bottom: 20px; /* Spazio tra l'icona e la descrizione */
 }
 
 header .group-description p {
     max-width: 600px;
+    text-align: center;
     font-size: 18px;
+    color: #555; /* Colore più scuro per il testo */
 }
 
 /* Stile per i titoli delle cartelle */
 h1, h2 {
     font-size: 24px;
     margin: 10px 0;
+    text-align: center;
 }
 
 /* Link alle cartelle */
@@ -53,7 +69,6 @@ h1 a:hover, h2 a:hover {
 
 /* Sezione principale */
 main {
-    max-width: 800px;
     margin: 0 auto;
 }
 
