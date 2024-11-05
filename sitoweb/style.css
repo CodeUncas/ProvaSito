@@ -16,7 +16,6 @@ body {
     justify-content: center; /* Centra orizzontalmente */
     align-items: center; /* Centra verticalmente */
     flex-direction: column; /* Colonna per centralità verticale */
-    margin: 40px 0; /* Aggiunge margini sopra e sotto per dare respiro alla pagina */
 }
 
 /* Main che contiene il contenuto */
@@ -27,7 +26,6 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra per effetto di profondità */
     width: 90%;
     max-width: 800px; /* Limita la larghezza massima */
-    margin: 40px 0; /* Margine sopra e sotto il main per distanziarlo dal body */
 }
 
 /* Header con l'icona e la descrizione */
@@ -41,7 +39,7 @@ header {
 header .logo img {
     width: 200px; /* Immagine ingrandita */
     height: auto;
-    margin-bottom: 20px; /* Spazio tra l'icona e la descrizione */
+   
 }
 
 header .group-description p {
