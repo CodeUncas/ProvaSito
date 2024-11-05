@@ -85,6 +85,7 @@ ul li {
 ul li::before {
     content: "~"; /* Aggiungi il simbolo "~" prima del testo del link */
     position: absolute;
+    left: 0%;
     top: 50%;
     transform: translateY(-50%); /* Centra verticalmente */
     font-size: 18px;
@@ -98,7 +99,7 @@ ul li a {
     text-decoration: none;
     color: #2980b9; /* Colore iniziale blu chiaro per i link */
     font-size: 18px;
-    margin-left: 20px;
+    margin-left: 58px;
     transition: color 0.3s ease, transform 0.3s ease; /* Aggiunto effetto di ingrandimento */
     display: inline-block; /* Necessario per poter usare 'transform' su inline elements */
 
