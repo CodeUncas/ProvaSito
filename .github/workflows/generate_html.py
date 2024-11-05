@@ -4,6 +4,8 @@ from datetime import datetime
 
 output_dir = 'output'
 sitoweb_dir = 'sitoweb'
+esterni_dir = 'Esterni'  # Supponiamo che i file verbali esterni siano in questa cartella
+
 def generate_html():
     html_content = ""
 
@@ -18,21 +20,22 @@ def generate_html():
 
         # Aggiungi un controllo speciale per la cartella "verbali esterni"
         if 'Esterni' in root:
-            # Qui dovresti aggiungere i link ai file PDF provenienti da GitHub
-            # Supponiamo che i link siano predefiniti (devi sostituire questi con i tuoi URL reali)
-            pdf_links_from_github = [
-                'VerbaleEsterno-2024-10-25.pdf',
-                'VerbaleEsterno-2024-10-22.pdf',
-                'VerbaleEsterno-2024-10-17.pdf'
-            ]
+            # Copia i verbali esterni nella cartella output (se non già copiati)
+            pdf_files = [f for f in files if f.endswith('.pdf')]
+            for pdf_file in pdf_files:
+                src_pdf_path = os.path.join(root, pdf_file)
+                dst_pdf_path = os.path.join(output_dir, pdf_file)
+                
+                # Copia il PDF solo se non esiste già
+                if not os.path.exists(dst_pdf_path):
+                    shutil.copy2(src_pdf_path, dst_pdf_path)
             
-            # Aggiungi la sezione HTML per questi link
-            html_content += "<h3>Esterni</h3>\n<ul>\n"
-            for pdf_url in pdf_links_from_github:
-                pdf_filename = pdf_url.split('/')[-1]  # Estrai il nome del file
-                html_content += f'<li><a href="{pdf_url}">{pdf_filename}</a></li>\n'
+            # Aggiungi la sezione HTML per i verbali esterni
+            html_content += "<h3>Verbali Esterni</h3>\n<ul>\n"
+            for pdf_file in pdf_files:
+                html_content += f'<li><a href="output/{pdf_file}">{pdf_file}</a></li>\n'
             html_content += "</ul>\n"
-            continue  # Salta la parte successiva per questa cartella
+            continue  # Salta la parte successiva per questa cartella "Esterni"
 
         subdirs_with_tex = []
 
@@ -118,12 +121,16 @@ def insert_content_into_html(content):
     with open(sitoweb_index_path, 'w') as f:
         f.writelines(html_lines)
 
+# Assicurati che la cartella output esista
 os.makedirs(output_dir, exist_ok=True)
 
+# Copia i file dal sito web di base (stili, immagini, ecc.)
 copy_sitoweb_files()
 
+# Genera il contenuto HTML
 html_output = generate_html()
 
+# Inserisci il contenuto nella pagina HTML
 insert_content_into_html(html_output)
 
 print("HTML index created successfully in the 'output' directory.")
