@@ -8,7 +8,7 @@
 /* Impostazioni generali per il body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #e3f2fd; /* Blu chiaro per lo sfondo del body */
+    background-color: #2196f3; /* Blu scuro per lo sfondo del body */
     color: #333; /* Colore scuro per il testo, facilmente leggibile */
     line-height: 1.6;
     min-height: 100vh;
@@ -21,7 +21,7 @@ body {
 
 /* Main che contiene il contenuto */
 main {
-    background-color: #90caf9; /* Colore blu chiaro per il contenitore */
+    background-color: #bbdefb; /* Blu chiaro per il contenitore */
     padding: 40px;
     border-radius: 8px; /* Angoli arrotondati per il contenitore */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra per effetto di profondità */
@@ -39,7 +39,7 @@ header {
 }
 
 header .logo img {
-    width: 180px; /* Immagine ingrandita */
+    width: 90px; /* Immagine ingrandita */
     height: auto;
     margin-bottom: 20px; /* Spazio tra l'icona e la descrizione */
 }
@@ -86,7 +86,7 @@ ul li::before {
     left: -20px; /* Distanza dal bordo sinistro */
     top: 50%;
     transform: translateY(-50%); /* Centra verticalmente */
-    font-size: 24px;
+    font-size: 18px;
     color: #2980b9; /* Colore blu chiaro */
 }
 
@@ -101,7 +101,7 @@ ul li a {
 /* Effetto hover sui link */
 ul li a:hover {
     color: #3498db; /* Colore blu più brillante al passaggio del mouse */
-    transform: scale(1.4); /* Aumentato l'ingrandimento del link al passaggio del mouse */
+    transform: scale(1.3); /* Aumentato l'ingrandimento del link al passaggio del mouse */
 }
 
 /* Spaziatura generale */
