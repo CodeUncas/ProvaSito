@@ -71,10 +71,13 @@ def copy_sitoweb_files():
     for item in os.listdir(sitoweb_dir):
         src = os.path.join(sitoweb_dir, item)
         dst = os.path.join(output_dir, item)
+
+        # Sovrascrive i file esistenti senza errori
         if os.path.isdir(src):
-            shutil.copytree(src, dst, dirs_exist_ok=True)  # Copia le directory
+            shutil.copytree(src, dst, dirs_exist_ok=True)  # Sovrascrive la directory
         else:
-            shutil.copy2(src, dst)  # Copia i file
+            shutil.copy2(src, dst)  # Sovrascrive il file
+
 
 # Funzione per inserire contenuto nell'index.html di sitoweb
 def insert_content_into_html(content):
