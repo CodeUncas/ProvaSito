@@ -1,157 +1,63 @@
-*{
-    padding: 0;
+/* Reset di base per evitare stili indesiderati */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-:root{
-    --bgcolor: #1B262C;
-    --txtcolor: #FFF;
-    --containerscolor: #053640;
-    --containerhovercolor: #276c7a;
+/* Stile generali della pagina */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
 }
 
-html, body {
-    color: var(--txtcolor);
-    background-color: var(--bgcolor);
-    font-family: "Nuito Sans", Roboto, sans-serif;
-}
-
-
-
-/*
--------------------------------------------------Navbar-------------------------------------------------
-*/
-nav {
-    position: fixed;
-    top: 2em;
-    margin-left: 10%;
-    margin-right: 10%;
-    width: 79%;
-    background-color: var(--containerscolor);
-    text-align: left;
+/* Header con l'icona e la descrizione */
+header {
     display: flex;
     align-items: center;
-    padding: 1em;
-    border-radius: 12px;
-    
+    justify-content: flex-start;
+    margin-bottom: 40px;
 }
 
-nav ul {
-    list-style-type: none;
-
+header .logo img {
+    width: 50px; /* Dimensione dell'icona */
+    height: auto;
+    margin-right: 20px;
 }
 
-nav ul li {
-    display: inline;
-    font-size: 1.8em;
-    margin: 0 0.2em 0 0.2em;
+header .group-description p {
+    max-width: 600px;
+    font-size: 18px;
 }
 
-ul li a {   
-    color: var(--txtcolor);
-    padding: 0.4em 0.4em 0.4em 0.4em;
+/* Stile per i titoli delle cartelle */
+h1, h2 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+/* Link alle cartelle */
+h1 a, h2 a {
     text-decoration: none;
+    color: #007BFF; /* Colore iniziale del link */
+    transition: color 0.3s ease;
 }
 
-.navImg {
-    vertical-align: middle;
-    height:6em;
+/* Effetto hover sui link */
+h1 a:hover, h2 a:hover {
+    color: #0056b3; /* Colore al passaggio del mouse */
 }
 
-/*
--------------------------------------------------Main-------------------------------------------------
-*/
-
+/* Sezione principale */
 main {
-    margin-top: 12em;
-    margin-left: 5%;
-    width: 69%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-h1 {
-    font-size: 2em;
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    border-radius: 0.2em 0.2em 0.2em 0.2em;
-    margin: 0.4em 0 0.5em 0;
-}
-
-h1.file {
-    background-color: var(--containerscolor);
-}
-
-main ul li {
-    list-style-type: none;
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    margin: 0.4em 1em 0.4em 2.5em;
-    border-radius: 0.2em 0.2em 0.2em 0.2em;
-}
-
-main ul li:before {
-    content: ">";
-    margin-right: 0.5em;
-}
-
-main ul li a.file {
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    border-radius: 0.2em 0.2em 0.2em 0.2em;
-}
-
-main ul li a.file:hover {
-    background-color: var(--containerhovercolor);
-}
-
-hr {
-    width: 100%;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    border: 1px solid;
-}
-
-
-/*
--------------------------------------------------Footer-------------------------------------------------
-*/
-
-footer {
-    padding-left: 10%;
-    padding-right: 10%;
-    background-color: var(--containerscolor);
-    display: flex;
-    text-align: left;
-}
-
-#about {
-    width: 60%;
-    padding: 1em;
-}
-
-footer h1 {
-    font-size: 1.5em;
-    margin-left: 1em;
-    margin: 0;
-}
-
-footer p {
-    margin: 1em;
-}
-
-footer ul {
-    margin-left: 1.3em;
-    list-style-type: none;
-}
-
-footer ul li:before {
-    content: ">";
-    margin-right: 0.5em;
-}
-
-#contatti {
-    margin-left: 1em;
-}
-#separator {
-    width: 0;
-    border: 2px solid;
-    height: 18em;
-    margin-top:1.7em;
-    border-radius: 2px;
+/* Spaziatura generale */
+section {
+    margin-bottom: 30px;
 }
