@@ -10,8 +10,12 @@ sitoweb_dir = 'sitoweb'  # Percorso della cartella 'sitoweb' nella root del repo
 def generate_html():
     html_content = ""
 
-    # Scansiona le directory per trovare i file .tex
+    # Scansiona le directory per trovare i file .tex, ma ignorando la root
     for root, dirs, files in os.walk('.'):
+        # Ignora la directory root
+        if root == '.':
+            continue
+
         tex_files = [f for f in files if f.endswith('.tex')]
         subdirs_with_tex = []  # Per tenere traccia delle sottodirectory che contengono file .tex
 
@@ -80,6 +84,7 @@ def generate_html():
             html_content += "</ul>\n"
 
     return html_content
+
 # Funzione per copiare i file da sitoweb a output
 def copy_sitoweb_files():
     for item in os.listdir(sitoweb_dir):
