@@ -50,7 +50,23 @@ header .group-description p {
     font-size: 18px;
     color: #555; /* Colore scuro per il testo della descrizione */
 }
-
+#GroupName {
+    font-size: 36px; /* Dimensione del testo grande */
+    font-weight: bold; /* Grassetto per risaltare */
+    color: #0066ff; /* Colore dorato per un buon contrasto */
+    letter-spacing: 2px; /* Spaziatura tra le lettere */
+    text-transform: uppercase; /* Rende il testo tutto maiuscolo */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Ombra per far risaltare il testo */
+    
+}
+.group-description {
+    text-align: center; /* Centra il testo orizzontalmente */
+    display: flex; /* Usa Flexbox */
+    flex-direction: column; /* Dispone gli elementi in colonna */
+    align-items: center; /* Allinea il contenuto al centro (orizzontalmente) */
+    justify-content: center; /* Allinea il contenuto al centro (verticalmente) */
+    height: 100%; /* Assicurati che prenda tutta l'altezza disponibile */
+}
 /* Titolo principale centrato */
 h1 {
     font-size: 30px;
