@@ -7,8 +7,8 @@ on:
   pull_request:
 
 permissions:
-  id-token: write  # Grant permission for ID token
-  contents: write   # Needed to push to the repository
+  id-token: write  
+  contents: write   
 
 jobs:
   build:
@@ -45,8 +45,8 @@ jobs:
     needs: build
 
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      pages: write      
+      id-token: write   
 
     # Deploy to the github-pages environment
     environment:
