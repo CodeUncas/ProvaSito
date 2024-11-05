@@ -31,7 +31,7 @@ def generate_html():
                     shutil.copy2(src_pdf_path, dst_pdf_path)
             
             # Aggiungi la sezione HTML per i verbali esterni
-            html_content += "<h3>Verbali Esterni</h3>\n<ul>\n"
+            html_content += "<h3>Esterni</h3>\n<ul>\n"
             for pdf_file in pdf_files:
                 html_content += f'<li><a href="output/{pdf_file}">{pdf_file}</a></li>\n'
             html_content += "</ul>\n"
