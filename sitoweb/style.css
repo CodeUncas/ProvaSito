@@ -8,8 +8,8 @@
 /* Impostazioni generali per il body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #2c3e50; /* Colore di sfondo scuro */
-    color: #ecf0f1; /* Colore chiaro per il testo */
+    background-color: #f5f5f5; /* Colore di sfondo chiaro */
+    color: #333; /* Colore scuro per il testo, facilmente leggibile */
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
@@ -21,10 +21,10 @@ body {
 
 /* Main che contiene il contenuto */
 main {
-    background-color: #34495e; /* Sfondo leggermente più chiaro per il contenuto */
+    background-color: #ffffff; /* Sfondo bianco per il contenuto */
     padding: 40px;
     border-radius: 8px; /* Angoli arrotondati per il contenitore */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per effetto di profondità */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra per effetto di profondità */
     width: 90%;
     max-width: 800px; /* Limita la larghezza massima */
     margin: 40px 0; /* Margine sopra e sotto il main per distanziarlo dal body */
@@ -48,22 +48,29 @@ header .group-description p {
     max-width: 600px;
     text-align: center;
     font-size: 18px;
-    color: #ecf0f1; /* Colore chiaro per il testo */
+    color: #555; /* Colore scuro per il testo della descrizione */
 }
 
 /* Titolo principale centrato */
 h1 {
     font-size: 26px;
-    text-align: center;
+    text-align: left; /* Allineato a sinistra */
     margin-bottom: 20px;
-    color: #f39c12; /* Colore arancione per il titolo */
+    color: #2c3e50; /* Colore blu scuro per il titolo */
+}
+
+/* Titoli secondari (h2) */
+h2 {
+    font-size: 22px;
+    text-align: left; /* Allineato a sinistra */
+    margin-bottom: 15px;
+    color: #2c3e50; /* Colore blu scuro per gli h2 */
 }
 
 /* Lista dei link */
 ul {
     list-style-type: none; /* Rimuove i punti elenco */
     padding: 0;
-    text-align: center; /* Centra i link */
 }
 
 /* Elementi della lista */
@@ -74,14 +81,14 @@ ul li {
 /* Link alle cartelle */
 ul li a {
     text-decoration: none;
-    color: #1abc9c; /* Colore iniziale verde chiaro per i link */
+    color: #2980b9; /* Colore iniziale blu chiaro per i link */
     font-size: 18px;
     transition: color 0.3s ease;
 }
 
 /* Effetto hover sui link */
 ul li a:hover {
-    color: #16a085; /* Colore verde scuro al passaggio del mouse */
+    color: #3498db; /* Colore blu più brillante al passaggio del mouse */
 }
 
 /* Spaziatura generale */
