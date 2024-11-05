@@ -8,7 +8,7 @@
 /* Impostazioni generali per il body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #e1f5fe; /* Blu chiaro tenue per lo sfondo del body */
+    background-color: #bbdefb; /* Blu chiaro tenue per lo sfondo del body */
     color: #333; /* Colore scuro per il testo, facilmente leggibile */
     line-height: 1.6;
     min-height: 100vh;
@@ -21,7 +21,7 @@ body {
 
 /* Main che contiene il contenuto */
 main {
-    background-color: #bbdefb; /* Blu chiaro più tenue per il contenitore */
+    background-color: #e1f5fe; /* Blu chiaro più tenue per il contenitore */
     padding: 40px;
     border-radius: 8px; /* Angoli arrotondati per il contenitore */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra per effetto di profondità */
@@ -85,10 +85,11 @@ ul li {
 ul li::before {
     content: ">"; /* Aggiungi il simbolo ">" prima del testo del link */
     position: absolute;
-    left: -20px; /* Distanza dal bordo sinistro */
+    
     top: 50%;
     transform: translateY(-50%); /* Centra verticalmente */
     font-size: 18px;
+    margin-left: 25px; /* Tabula il link a destra rispetto al titolo */
     color: #2980b9; /* Colore blu chiaro */
 }
 
@@ -97,7 +98,7 @@ ul li a {
     text-decoration: none;
     color: #2980b9; /* Colore iniziale blu chiaro per i link */
     font-size: 18px;
-    margin-left: 20px; /* Tabula il link a destra rispetto al titolo */
+    
     transition: color 0.3s ease, transform 0.3s ease; /* Aggiunto effetto di ingrandimento */
 }
 
