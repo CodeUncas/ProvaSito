@@ -39,7 +39,7 @@ header {
 }
 
 header .logo img {
-    width: 90px; /* Immagine ingrandita */
+    width: 200px; /* Immagine ingrandita */
     height: auto;
     margin-bottom: 20px; /* Spazio tra l'icona e la descrizione */
 }
@@ -85,7 +85,7 @@ ul li {
 ul li::before {
     content: ">"; /* Aggiungi il simbolo ">" prima del testo del link */
     position: absolute;
-    
+    left:-20px;
     top: 50%;
     transform: translateY(-50%); /* Centra verticalmente */
     font-size: 18px;
@@ -98,7 +98,7 @@ ul li a {
     text-decoration: none;
     color: #2980b9; /* Colore iniziale blu chiaro per i link */
     font-size: 18px;
-    
+    margin-left: 25px;
     transition: color 0.3s ease, transform 0.3s ease; /* Aggiunto effetto di ingrandimento */
 }
 
