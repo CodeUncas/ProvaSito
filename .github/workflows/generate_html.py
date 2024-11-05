@@ -15,6 +15,8 @@ def generate_html():
         # Ignora la directory root
         if root == '.':
             continue
+        
+        dirs.sort()
 
         tex_files = [f for f in files if f.endswith('.tex')]
         subdirs_with_tex = []  # Per tenere traccia delle sottodirectory che contengono file .tex
