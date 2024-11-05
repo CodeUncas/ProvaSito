@@ -21,9 +21,9 @@ def generate_html():
             # Qui dovresti aggiungere i link ai file PDF provenienti da GitHub
             # Supponiamo che i link siano predefiniti (devi sostituire questi con i tuoi URL reali)
             pdf_links_from_github = [
-                'https://github.com/CodeUncas/ProvaSito/blob/main/candidatura/Verbali/Esterni/VerbaleEsterno-2024-10-17.pdf',
-                'https://github.com/CodeUncas/ProvaSito/blob/main/candidatura/Verbali/Esterni/VerbaleEsterno-2024-10-22.pdf',
-                'https://github.com/CodeUncas/ProvaSito/blob/main/candidatura/Verbali/Esterni/VerbaleEsterno-2024-10-25.pdf'
+                'VerbaleEsterno-2024-10-25.pdf',
+                'VerbaleEsterno-2024-10-22.pdf',
+                'VerbaleEsterno-2024-10-17.pdf'
             ]
             
             # Aggiungi la sezione HTML per questi link
