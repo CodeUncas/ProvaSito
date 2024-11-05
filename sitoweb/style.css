@@ -39,7 +39,7 @@ header {
 }
 
 header .logo img {
-    width: 70px; /* Dimensione dell'icona */
+    width: 90px; /* Immagine ingrandita */
     height: auto;
     margin-bottom: 20px; /* Spazio tra l'icona e la descrizione */
 }
@@ -76,6 +76,18 @@ ul {
 /* Elementi della lista */
 ul li {
     margin: 15px 0; /* Distanza tra i vari elementi */
+    position: relative;
+}
+
+/* Aggiunge il simbolo ">" prima dei link */
+ul li::before {
+    content: ">"; /* Aggiungi il simbolo ">" prima del testo del link */
+    position: absolute;
+    left: -20px; /* Distanza dal bordo sinistro */
+    top: 50%;
+    transform: translateY(-50%); /* Centra verticalmente */
+    font-size: 24px;
+    color: #2980b9; /* Colore blu chiaro */
 }
 
 /* Link alle cartelle */
@@ -83,12 +95,13 @@ ul li a {
     text-decoration: none;
     color: #2980b9; /* Colore iniziale blu chiaro per i link */
     font-size: 18px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease; /* Aggiunto effetto di ingrandimento */
 }
 
 /* Effetto hover sui link */
 ul li a:hover {
     color: #3498db; /* Colore blu più brillante al passaggio del mouse */
+    transform: scale(1.1); /* Ingrandisce il link al passaggio del mouse */
 }
 
 /* Spaziatura generale */
