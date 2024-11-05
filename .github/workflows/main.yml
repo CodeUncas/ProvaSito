@@ -20,7 +20,8 @@ jobs:
 
     - name: Set up TeX Live
       run: |
-        sudo apt-get install -y texlive-full python3
+        sudo apt-get update && sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended
+
        
     - name: Compile .tex files to .pdf
       run: |
