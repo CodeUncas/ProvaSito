@@ -24,6 +24,7 @@ jobs:
     - name: Compile .tex files to .pdf
       run: |
         mkdir -p output
+        mkdir -p output/images
         cp -r images/* output/images/
 
         find . -name "*.tex" | while read file; do
