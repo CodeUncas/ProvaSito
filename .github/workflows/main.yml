@@ -17,7 +17,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
+    - name: Debug directory structure
+      run: ls -R
     - name: Set up TeX Live
       run: sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra python3
 
