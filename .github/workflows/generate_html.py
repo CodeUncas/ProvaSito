@@ -6,7 +6,7 @@ output_dir = 'output'
 sitoweb_dir = 'sitoweb'
 esterni_dir = 'Esterni'  # Supponiamo che i file verbali esterni siano in questa cartella
 
-ddef generate_html():
+def generate_html():
     html_content = ""
 
     for root, dirs, files in os.walk('.'):
