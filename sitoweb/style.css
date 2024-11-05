@@ -81,9 +81,9 @@ ul li {
     position: relative;
 }
 
-/* Aggiunge il simbolo ">" prima dei link */
+/* Aggiunge il simbolo "~" prima dei link */
 ul li::before {
-    content: ">"; /* Aggiungi il simbolo ">" prima del testo del link */
+    content: "~"; /* Aggiungi il simbolo "~" prima del testo del link */
     position: absolute;
     left:-20px;
     top: 50%;
