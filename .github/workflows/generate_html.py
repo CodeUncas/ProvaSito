@@ -16,7 +16,7 @@ def generate_html():
         
         if tex_files:
             # Calcola il livello di annidamento
-            level = root.count(os.sep)
+            level = root.count(os.sep)-1
             folder_name = os.path.basename(root)
 
             # Aggiungi intestazione appropriata in base al livello
