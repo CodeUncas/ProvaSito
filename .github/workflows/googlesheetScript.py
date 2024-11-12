@@ -13,7 +13,7 @@ def build_sheets_service(key):
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
         # Intervallo da leggere dal foglio
-        range_ = "Foglio1!A1:Z1000"  # Modifica l'intervallo se necessario
+        range_ = "Foglio1!B3:I10"  # Modifica l'intervallo se necessario
 
         # Ottieni i dati dal foglio
         sheet = service.spreadsheets()
