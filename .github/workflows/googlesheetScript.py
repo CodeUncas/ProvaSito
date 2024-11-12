@@ -12,6 +12,7 @@ def build_sheets_service(key):
 # Funzione per aggiornare il numero di ore
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
+        print(nome + " " + ruolo)
         # Ottieni i dati dal foglio
         sheet = service.spreadsheets()
         result = sheet.values().get(spreadsheetId=spreadsheet_id, range="Foglio1!A1:Z1000").execute()
