@@ -2,8 +2,6 @@ import os
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-
-
 # Funzione per costruire il servizio Google Sheets
 def build_sheets_service(key):
     service = build('sheets', 'v4', developerKey=key)
@@ -12,8 +10,8 @@ def build_sheets_service(key):
 # Funzione per aggiornare il numero di ore
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
-        # Intervallo da leggere dal foglio
-        range_ = "Foglio1!B3:I10"  # Modifica l'intervallo se necessario
+        # Intervallo da leggere dal foglio (completo)
+        range_ = "Foglio1!A1:I10"  # Modifica l'intervallo se necessario
 
         # Ottieni i dati dal foglio
         sheet = service.spreadsheets()
@@ -25,30 +23,34 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
         for row in values:
             print(row)
 
+        # La prima riga (index 0) contiene le intestazioni dei ruoli
+        headers = values[0]  # Prima riga è l'intestazione dei ruoli
+
+        # Trova la colonna corrispondente al ruolo
+        role_column = None
+        for j, header in enumerate(headers):
+            if header.strip().lower() == ruolo.strip().lower():
+                role_column = j  # Memorizza l'indice della colonna corrispondente al ruolo
+                break
         
+        if role_column is None:
+            print(f"Ruolo '{ruolo}' non trovato.")
+            return
+
         # Trova la riga corrispondente al nome
-        for i, row in enumerate(values):
-            # La prima colonna (index 0) ora contiene i nomi
+        for i, row in enumerate(values[1:], start=1):  # Inizia dalla seconda riga (index 1)
             if row and row[0].strip().lower() == nome.strip().lower():  # Normalizza il nome
                 print(f"Nome trovato: {row[0]}")  # Debug per verificare se il nome è stato trovato
-                # Trova la colonna corrispondente al ruolo
-                for j, cell in enumerate(row[0:], start=0): 
-                    print(cell.strip())
-                    if cell.strip().lower() == ruolo.strip().lower():  # Normalizza il ruolo
-                        print(f"Ruolo trovato: {cell}")  # Debug per verificare se il ruolo è stato trovato
-                        # Aggiorna il valore nella cella (i, j)
-                        update_range = f"Foglio1!{chr(65 + j)}{i + 2}"  # Calcola la cella da aggiornare (aggiungiamo 2 per saltare l'intestazione)
-                        body = {
-                            'values': [[ore]]
-                        }
-                        sheet.values().update(spreadsheetId=spreadsheet_id, range=update_range, body=body, valueInputOption="RAW").execute()
-                        print(f"Ora aggiornate con successo per {nome} nel ruolo di {ruolo}: {ore} ore.")
-                        return
-        print(f"Nome o ruolo non trovati nel foglio.")
+                # Aggiorna il valore nella cella corrispondente a nome e ruolo
+                update_range = f"Foglio1!{chr(65 + role_column)}{i + 1}"  # Calcola la cella da aggiornare
+                body = {
+                    'values': [[ore]]
+                }
+                sheet.values().update(spreadsheetId=spreadsheet_id, range=update_range, body=body, valueInputOption="RAW").execute()
+                print(f"Ora aggiornate con successo per {nome} nel ruolo di {ruolo}: {ore} ore.")
+                return
         
-    except Exception as e:
-        print(f"Errore nell'aggiornamento del foglio: {e}")
-        
-    except Exception as e:
-        print(f"Errore nell'aggiornamento del foglio: {e}")
+        print(f"Nome '{nome}' non trovato nel foglio.")
 
+    except Exception as e:
+        print(f"Errore nell'aggiornamento del foglio: {e}")
