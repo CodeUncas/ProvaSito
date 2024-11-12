@@ -4,22 +4,22 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
 def build_sheets_service():
-    # Percorso del file delle credenziali
-    credentials_path = os.path.join(os.getcwd(), '.github/workflows/credentials.json')  # Usa il percorso corretto del file
-
-    # Verifica se il file delle credenziali esiste
-    if not os.path.exists(credentials_path):
-        raise ValueError(f"Il file delle credenziali non è stato trovato: {credentials_path}")
-
-    # Carica le credenziali direttamente dal file
+        
+    # Percorso del file JSON delle credenziali del Service Account
+    SERVICE_ACCOUNT_FILE = '.github/workflows/credentials.json'
+    
+    # Scopes richiesti per l'accesso a Google Sheets e Google Drive
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    
+    # Autenticazione con il Service Account
     credentials = Credentials.from_service_account_file(
-        credentials_path, 
-        scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        SERVICE_ACCOUNT_FILE,
+        scopes=SCOPES
     )
-
-    # Costruisci il servizio per Google Sheets
-    service = build('sheets', 'v4', credentials=credentials)
-    return service
+    
+    # Costruisci il servizio Google Sheets
+    sheets_service = build('sheets', 'v4', credentials=credentials)
+    return sheets_service
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
         # Intervallo da leggere dal foglio (completo)
