@@ -34,6 +34,8 @@ jobs:
         run: |
           echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
           echo "PYTHON_TOKEN=${{ secrets.PYTHON_TOKEN }}" >> $GITHUB_ENV
+          echo "GOOGLE_SHEETS_CREDENTIALS=${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}" >> $GITHUB_ENV
+          
 
       # Step 5: Esegui lo script Python
       - name: Run Python script
