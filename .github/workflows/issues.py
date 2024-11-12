@@ -5,7 +5,7 @@ import os
 
 issue_number = os.getenv('ISSUE_NUMBER')
 token = os.getenv('PYTHON_TOKEN')
-urlGithubIssue =  'https://api.github.com/repos/CodeUncas/ProvaSito/issues/{issue_number}'
+urlGithubIssue =  f'https://api.github.com/repos/CodeUncas/ProvaSito/issues/{issue_number}'
 
 # https://api.github.com/repos/OWNER/REPO/issues/ISSUE_NUMBER
 
