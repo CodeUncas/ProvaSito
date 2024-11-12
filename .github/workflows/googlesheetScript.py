@@ -9,7 +9,7 @@ def build_sheets_service():
     SERVICE_ACCOUNT_FILE = '.github/workflows/credentials.json'
     
     # Scopes richiesti per l'accesso a Google Sheets e Google Drive
-    SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     
     # Autenticazione con il Service Account
     credentials = Credentials.from_service_account_file(
