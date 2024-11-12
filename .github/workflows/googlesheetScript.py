@@ -3,7 +3,7 @@ from googleapiclient.discovery import build
 
 def build_sheets_service():
     # Percorso del file delle credenziali
-    credentials_path = '~/credentials.json'
+    credentials_path = '../../credentials.json'
     # Carica le credenziali direttamente dal file
     credentials = service_account.Credentials.from_service_account_file(
         filename=credentials_path
