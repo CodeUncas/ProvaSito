@@ -1,24 +1,39 @@
-import os
-import json
-from google.oauth2.service_account import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from google.auth.transport.requests import Request
+import os
+import pickle
 
 def build_sheets_service():
-        
-    # Percorso del file JSON delle credenziali del Service Account
-    SERVICE_ACCOUNT_FILE = '.github/workflows/credentials.json'
+    # Percorso del file JSON con le credenziali OAuth 2.0
+    CLIENT_SECRET_FILE = '.github/workflows/credentials.json'
     
     # Scopes richiesti per l'accesso a Google Sheets e Google Drive
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-    
-    # Autenticazione con il Service Account
-    credentials = Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE,
-        scopes=SCOPES
-    )
-    
+
+    creds = None
+
+    # Il file token.pickle memorizza le credenziali di accesso dell'utente
+    # e viene creato automaticamente alla prima esecuzione del flusso di autorizzazione.
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+
+    # Se non ci sono credenziali valide, l'utente dovrà autenticarsi
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                CLIENT_SECRET_FILE, SCOPES)
+            creds = flow.run_local_server(port=0)
+
+        # Salva le credenziali per l'uso futuro
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
     # Costruisci il servizio Google Sheets
-    sheets_service = build('sheets', 'v4', credentials=credentials)
+    sheets_service = build('sheets', 'v4', credentials=creds)
     return sheets_service
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
