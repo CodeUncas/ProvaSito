@@ -1,0 +1,38 @@
+name: "Issue Created Action"
+
+on:
+  issues:
+    types:
+      - opened  # L'azione si attiva quando viene creata una nuova issue
+
+jobs:
+  issue_created:
+    runs-on: ubuntu-latest  # Il sistema operativo su cui eseguire il job
+
+    steps:
+      # Step 1: Checkout del repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Configura Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Versione di Python che vuoi usare (puoi cambiarla se necessario)
+
+      # Step 3: Installa la libreria requests
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip  # Aggiorna pip all'ultima versione
+          pip install requests  # Installa la libreria requests
+
+      # Step 4: Imposta variabili d'ambiente
+      - name: Set environment variables
+        run: |
+          echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          echo "MY_TOKEN=${{ secrets.PYTHON_TOKEN }}" >> $GITHUB_ENV
+
+      # Step 5: Esegui lo script Python
+      - name: Run Python script
+        run: |
+          python3 main.py
