@@ -10,22 +10,30 @@ def build_sheets_service(key):
     return service
 
 # Funzione per aggiornare il numero di ore
-def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
-        print(nome + " " + ruolo)
+        # Intervallo da leggere dal foglio
+        range_ = "Foglio1!A1:Z1000"  # Modifica l'intervallo se necessario
+
         # Ottieni i dati dal foglio
         sheet = service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=spreadsheet_id, range="Foglio1!A1:Z1000").execute()
+        result = sheet.values().get(spreadsheetId=spreadsheet_id, range=range_).execute()
         values = result.get('values', [])
+
+        # Stampa i dati letti dal foglio per il debug
+        print("Dati letti dal foglio:")
+        for row in values:
+            print(row)
 
         # Trova la riga corrispondente al nome
         for i, row in enumerate(values):
-            if row and row[0] == nome:  # La prima colonna contiene i nomi
+            if row and row[0].strip().lower() == nome.strip().lower():  # Normalizza il nome
+                print(f"Nome trovato: {row[0]}")  # Debug per verificare se il nome è stato trovato
                 # Trova la colonna corrispondente al ruolo
-                for j, cell in enumerate(row[1:], start=1):  # Inizia dalla seconda colonna
-                    if cell == ruolo:  # Supponiamo che il ruolo sia un valore nelle colonne successive
+                for j, cell in enumerate(row[1:], start=1):  # Le colonne da B a H (ruolo1 a ruolo7)
+                    if cell.strip().lower() == ruolo.strip().lower():  # Normalizza il ruolo
+                        print(f"Ruolo trovato: {cell}")  # Debug per verificare se il ruolo è stato trovato
                         # Aggiorna il valore nella cella (i, j)
-                        update_range = f"Foglio1!{chr(65 + j)}{i + 1}"  # Calcola la cella di destinazione
+                        update_range = f"Foglio1!{chr(65 + j)}{i + 1}"  # Calcola la cella da aggiornare
                         body = {
                             'values': [[ore]]
                         }
