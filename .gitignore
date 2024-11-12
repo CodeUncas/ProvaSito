@@ -1,4 +1,4 @@
 /dist
 # Ignora file di credenziali
-./.github/workflows/credentials.json
+.github/workflows/credentials.json
 token.pickle
