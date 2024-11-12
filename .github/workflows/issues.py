@@ -35,7 +35,7 @@ def getIssueDetails(urlParam,headerParam):
 
 def main():
     finalDictionary = getIssueDetails(urlGithubIssue,headers)
-    service = build_sheets_service('credentials.json')
+    service = build_sheets_service('.github/workflows/credentials.json')
     
     # Esegui l'aggiornamento
     update_hours(service, SPREADSHEET_ID, 'CodeUncas', 'ruolo3', 2 )
