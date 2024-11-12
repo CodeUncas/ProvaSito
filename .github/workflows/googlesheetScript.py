@@ -4,19 +4,10 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
 def build_sheets_service():
-    # Recupera il percorso del file JSON contenente le credenziali
-    #credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-    
-    #if not credentials_path:
-       # raise ValueError("La variabile d'ambiente 'GOOGLE_APPLICATION_CREDENTIALS' non è definita.")
-    with open('/tmp/google-credentials.json', 'r') as file:
-        data = json.load(file)
 
-    # Stampa il JSON in una sola riga
-    print(json.dumps(data))
     # Carica le credenziali direttamente dal file
     credentials = Credentials.from_service_account_file(
-        '/tmp/google-credentials.json', 
+        'credentials.json', 
         scopes=["https://www.googleapis.com/auth/spreadsheets"]
     )
 
