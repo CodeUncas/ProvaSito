@@ -3,7 +3,8 @@ from googleapiclient.discovery import build
 
 def build_sheets_service():
     # Percorso del file delle credenziali
-    credentials_path = './jcredentials.json'
+    credentials_path = os.path.join(os.getenv('GITHUB_WORKSPACE'), '.github', 'workflows', 'jcredentials.json')
+
     # Carica le credenziali direttamente dal file
     credentials = service_account.Credentials.from_service_account_file(
         filename=credentials_path
