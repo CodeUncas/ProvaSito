@@ -35,7 +35,7 @@ jobs:
 
       - name: Set up credentials for Google Sheets
         run: |
-          echo "${{ secrets.GOOGLE_SHEET_CREDENTIALS }}" > credentials.json
+          echo "${{ secrets.GOOGLE_SHEET_CREDENTIALS }}" > .github/workflows/jcredentials.json
           ls -R
       # Step 5: Esegui lo script Python
       - name: Run Python script
