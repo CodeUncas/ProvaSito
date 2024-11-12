@@ -10,7 +10,6 @@ urlGithubIssue =  f'https://api.github.com/repos/CodeUncas/ProvaSito/issues/{iss
 
 # SECONDO PROCESSO
 SPREADSHEET_ID = '1xmtRTVE1byAcSEzIK11N_ePO2ruVTPVJaMGrDqfBcaQ'  # Inserisci l'ID del tuo foglio di calcolo
-SHEETS_KEY = os.getenv('SHEETS_TOKEN')  # Inserisci la tua API Key
 ############
 
 # https://api.github.com/repos/OWNER/REPO/issues/ISSUE_NUMBER
@@ -36,7 +35,7 @@ def getIssueDetails(urlParam,headerParam):
 
 def main():
     finalDictionary = getIssueDetails(urlGithubIssue,headers)
-    service = build_sheets_service(SHEETS_KEY)
+    service = build_sheets_service('credentials.json')
     
     # Esegui l'aggiornamento
     update_hours(service, SPREADSHEET_ID, 'CodeUncas', 'ruolo3', 2 )
