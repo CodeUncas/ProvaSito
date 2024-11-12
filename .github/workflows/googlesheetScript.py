@@ -5,7 +5,7 @@ from googleapiclient.discovery import build
 
 def build_sheets_service():
     # Percorso del file delle credenziali
-    credentials_path = os.path.join(os.getcwd(), 'credentials.json')  # Usa il percorso corretto del file
+    credentials_path = os.path.join(os.getcwd(), '.github/workflows/credentials.json')  # Usa il percorso corretto del file
 
     # Verifica se il file delle credenziali esiste
     if not os.path.exists(credentials_path):
