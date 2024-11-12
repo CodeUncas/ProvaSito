@@ -40,4 +40,4 @@ jobs:
         run: |
           python3 .github/workflows/issues.py
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: /tmp/google-credentials.json
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_SHEET_CREDENTIALS }}
