@@ -4,10 +4,16 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
 def build_sheets_service():
+    # Percorso del file delle credenziali
+    credentials_path = os.path.join(os.getcwd(), 'credentials.json')  # Usa il percorso corretto del file
+
+    # Verifica se il file delle credenziali esiste
+    if not os.path.exists(credentials_path):
+        raise ValueError(f"Il file delle credenziali non è stato trovato: {credentials_path}")
 
     # Carica le credenziali direttamente dal file
     credentials = Credentials.from_service_account_file(
-        'credentials.json', 
+        credentials_path, 
         scopes=["https://www.googleapis.com/auth/spreadsheets"]
     )
 
