@@ -33,11 +33,12 @@ jobs:
           echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
           echo "PYTHON_TOKEN=${{ secrets.PYTHON_TOKEN }}" >> $GITHUB_ENV
 
-      
+      - name: Set up Google Sheets credentials
+        run: |
+          echo "${{ secrets.GOOGLE_SHEET_CREDENTIALS }}" > /tmp/google-credentials.json
 
       # Step 5: Esegui lo script Python
       - name: Run Python script
         run: |
           python3 .github/workflows/issues.py
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_SHEET_CREDENTIALS }}
+      
