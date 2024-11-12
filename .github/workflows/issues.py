@@ -39,7 +39,7 @@ def main():
     service = build_sheets_service(SHEETS_KEY)
     
     # Esegui l'aggiornamento
-    update_hours(service, SPREADSHEET_ID, finalDictionary['AssigneeIssue'], finalDictionary['DescrizioneIssue'], 2 )
+    update_hours(service, SPREADSHEET_ID, 'CodeUncas', 'ruolo3', 2 )
 
 if __name__ == '__main__':
     main()
