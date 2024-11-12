@@ -11,7 +11,7 @@ def build_sheets_service(key):
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
         # Intervallo da leggere dal foglio (completo)
-        range_ = "Foglio1!A1:I10"  # Modifica l'intervallo se necessario
+        range_ = "Foglio1!B3:I10"  # Modifica l'intervallo se necessario
 
         # Ottieni i dati dal foglio
         sheet = service.spreadsheets()
@@ -29,6 +29,7 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
         # Trova la colonna corrispondente al ruolo
         role_column = None
         for j, header in enumerate(headers):
+            print(header)
             if header.strip().lower() == ruolo.strip().lower():
                 role_column = j  # Memorizza l'indice della colonna corrispondente al ruolo
                 break
