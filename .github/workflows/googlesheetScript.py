@@ -10,6 +10,7 @@ def build_sheets_service(key):
     return service
 
 # Funzione per aggiornare il numero di ore
+def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
         # Intervallo da leggere dal foglio
         range_ = "Foglio1!A1:Z1000"  # Modifica l'intervallo se necessario
