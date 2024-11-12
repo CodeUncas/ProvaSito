@@ -35,4 +35,4 @@ jobs:
       # Step 5: Esegui lo script Python
       - name: Run Python script
         run: |
-          python3 issues.py
+          python3 .github/workflows/issues.py
