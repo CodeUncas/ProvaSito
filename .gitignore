@@ -1,4 +1,6 @@
 /dist
 # Ignora file di credenziali
+
 **/credentials.json
+
 token.pickle
