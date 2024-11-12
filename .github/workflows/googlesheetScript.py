@@ -7,7 +7,7 @@ from google.oauth2.service_account import Credentials
 # Funzione per costruire il servizio Google Sheets con le credenziali di servizio da variabile d'ambiente
 def build_sheets_service():
     # Recupera la variabile d'ambiente contenente le credenziali
-    credentials_json = os.getenv('GOOGLE_SHEET_CREDENTIALS')
+    credentials_json = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
     if not credentials_json:
         raise ValueError("La variabile d'ambiente 'GOOGLE_SHEET_CREDENTIALS' non è definita.")
     
