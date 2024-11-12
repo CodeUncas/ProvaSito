@@ -1,29 +1,19 @@
 import os
-import tempfile
-import json
-from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
+from googleapiclient.discovery import build
 
-# Funzione per costruire il servizio Google Sheets con le credenziali di servizio da variabile d'ambiente
 def build_sheets_service():
-    # Recupera la variabile d'ambiente contenente le credenziali
-    credentials_json = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-    if not credentials_json:
-        raise ValueError("La variabile d'ambiente 'GOOGLE_SHEET_CREDENTIALS' non è definita.")
+    # Recupera il percorso del file JSON contenente le credenziali
+    credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
     
-    # Converti la stringa JSON in un dizionario Python
-    credentials_dict = json.loads(credentials_json)
+    if not credentials_path:
+        raise ValueError("La variabile d'ambiente 'GOOGLE_APPLICATION_CREDENTIALS' non è definita.")
     
-    # Crea un file temporaneo con il contenuto delle credenziali
-    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-        json.dump(credentials_dict, temp_file)  # Scrive il contenuto delle credenziali nel file
-        temp_file.close()  # Chiude il file temporaneo
-        
-        # Carica le credenziali dal file temporaneo
-        credentials = Credentials.from_service_account_file(temp_file.name, scopes=["https://www.googleapis.com/auth/spreadsheets"])
-
-    # Rimuovi il file temporaneo
-    os.remove(temp_file.name)
+    # Carica le credenziali direttamente dal file
+    credentials = Credentials.from_service_account_file(
+        credentials_path, 
+        scopes=["https://www.googleapis.com/auth/spreadsheets"]
+    )
 
     # Costruisci il servizio per Google Sheets
     service = build('sheets', 'v4', credentials=credentials)
