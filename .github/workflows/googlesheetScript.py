@@ -12,6 +12,8 @@ def build_sheets_service():
     # Costruisci il servizio per Google Sheets
     service = build('sheets', 'v4', credentials=credentials)
     return service
+
+
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
         # Intervallo da leggere dal foglio (completo)
@@ -47,17 +49,34 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
             if row and row[0].strip().lower() == nome.strip().lower():  # Normalizza il nome
                 print(f"Nome trovato: {row[0]}")  # Debug per verificare se il nome è stato trovato
                 
-                # Calcola l'intervallo per aggiornare la cella corrispondente
+                # Calcola l'intervallo per leggere la cella corrispondente
                 # La colonna per il ruolo è `role_column` e la riga è `i + 3` (perché l'intervallo inizia dalla riga 3)
-                update_range = f"Foglio1!{chr(65 + role_column + 1)}{i + 3}"  # +1 perché il range inizia da B, non A, e +3 per offset della riga
+                read_range = f"Foglio1!{chr(65 + role_column + 1)}{i + 3}"  # +1 per l'indice della colonna, +3 per l'offset delle righe
 
+                # Ottieni il valore corrente nella cella (ore già inserite)
+                current_value_result = sheet.values().get(spreadsheetId=spreadsheet_id, range=read_range).execute()
+                current_value = current_value_result.get('values', [[]])[0][0] if current_value_result.get('values') else '0'
+
+                # Converte il valore attuale in un numero (se è vuoto o non valido, usa 0)
+                try:
+                    current_hours = float(current_value)
+                except ValueError:
+                    current_hours = 0.0  # Se il valore corrente non è un numero, consideralo come 0
+
+                # Somma le ore attuali con le nuove ore
+                new_hours = current_hours + ore
+
+                # Prepara il corpo per l'aggiornamento
                 body = {
-                    'values': [[ore]]
+                    'values': [[new_hours]]
                 }
 
-                # Esegui l'aggiornamento nella cella corretta
+                # Calcola l'intervallo per aggiornare la cella corrispondente
+                update_range = f"Foglio1!{chr(65 + role_column + 1)}{i + 3}"
+
+                # Esegui l'aggiornamento con la somma delle ore
                 sheet.values().update(spreadsheetId=spreadsheet_id, range=update_range, body=body, valueInputOption="RAW").execute()
-                print(f"Ora aggiornate con successo per {nome} nel ruolo di {ruolo}: {ore} ore.")
+                print(f"Ora aggiornate con successo per {nome} nel ruolo di {ruolo}: {new_hours} ore.")
                 return
         
         print(f"Nome '{nome}' non trovato nel foglio.")
