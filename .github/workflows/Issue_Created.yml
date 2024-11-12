@@ -30,9 +30,9 @@ jobs:
       # Step 4: Imposta variabili d'ambiente
       - name: Set environment variables
         run: |
+          echo "GOOGLE_SHEET_CREDENTIALS=${{ secrets.GOOGLE_SHEET_CREDENTIALS }}" >> $GITHUB_ENV
           echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
           echo "PYTHON_TOKEN=${{ secrets.PYTHON_TOKEN }}" >> $GITHUB_ENV
-          echo "GOOGLE_SHEET_CREDENTIALS=${{ secrets.GOOGLE_SHEET_CREDENTIALS }}" >> $GITHUB_ENV
 
       
 
