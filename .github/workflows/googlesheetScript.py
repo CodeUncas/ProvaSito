@@ -1,10 +1,35 @@
 import os
+import pickle
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 
-# Funzione per costruire il servizio Google Sheets
-def build_sheets_service(key):
-    service = build('sheets', 'v4', developerKey=key)
+# Funzione per costruire il servizio Google Sheets con OAuth 2.0
+def build_sheets_service(credentials_file):
+    creds = None
+    # Il file token.pickle memorizza l'accesso e il refresh token dell'utente.
+    # Se esiste, carica i credenziali salvate
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+
+    # Se non ci sono (o sono scadute) credenziali, chiedi all'utente di autenticarsi
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            from google_auth_oauthlib.flow import InstalledAppFlow
+            # Usa il file credentials.json scaricato dal Google Cloud Console
+            flow = InstalledAppFlow.from_client_secrets_file(
+                credentials_file, ['https://www.googleapis.com/auth/spreadsheets']
+            )
+            creds = flow.run_local_server(port=0)
+        # Salva le credenziali per il prossimo utilizzo
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    # Crea il servizio Sheets con le credenziali OAuth
+    service = build('sheets', 'v4', credentials=creds)
     return service
 
 # Funzione per aggiornare il numero di ore
