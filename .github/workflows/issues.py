@@ -36,7 +36,7 @@ def getIssueDetails(urlParam,headerParam):
 
 def main():
     finalDictionary = getIssueDetails(urlGithubIssue,headers)
-    service = build_sheets_service()
+    service = build_sheets_service(SHEETS_KEY)
     
     # Esegui l'aggiornamento
     update_hours(service, SPREADSHEET_ID, finalDictionary['AssigneeIssue'], finalDictionary['ruolo'], 2 )
