@@ -8,7 +8,11 @@ def build_sheets_service():
     
     #if not credentials_path:
        # raise ValueError("La variabile d'ambiente 'GOOGLE_APPLICATION_CREDENTIALS' non è definita.")
-    
+    with open('/tmp/google-credentials.json', 'r') as file:
+    data = json.load(file)
+
+    # Stampa il JSON in una sola riga
+    print(json.dumps(data))
     # Carica le credenziali direttamente dal file
     credentials = Credentials.from_service_account_file(
         '/tmp/google-credentials.json', 
