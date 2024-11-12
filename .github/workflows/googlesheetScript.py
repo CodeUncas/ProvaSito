@@ -33,6 +33,7 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
                 print(f"Nome trovato: {row[0]}")  # Debug per verificare se il nome è stato trovato
                 # Trova la colonna corrispondente al ruolo
                 for j, cell in enumerate(row[1:], start=1):  # Le colonne da B a H (ruolo1 a ruolo7)
+                    print(cell.strip())
                     if cell.strip().lower() == ruolo.strip().lower():  # Normalizza il ruolo
                         print(f"Ruolo trovato: {cell}")  # Debug per verificare se il ruolo è stato trovato
                         # Aggiorna il valore nella cella (i, j)
