@@ -36,9 +36,6 @@ jobs:
         run: |
           echo "$GOOGLE_SHEET_CREDENTIALS" > /tmp/google-credentials.json
 
-      - name: Authenticate with Google Sheets API
-        run: |
-          gcloud auth activate-service-account --key-file=/tmp/google-credentials.json
       
 
       # Step 5: Esegui lo script Python
