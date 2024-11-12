@@ -25,17 +25,18 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
         for row in values:
             print(row)
 
+        
         # Trova la riga corrispondente al nome
         for i, row in enumerate(values):
+            # La prima colonna (index 0) ora contiene i nomi
             if row and row[0].strip().lower() == nome.strip().lower():  # Normalizza il nome
                 print(f"Nome trovato: {row[0]}")  # Debug per verificare se il nome è stato trovato
                 # Trova la colonna corrispondente al ruolo
-                for j in range(2, 9):  # Colonne da C (indice 2) a I (indice 8)
-                    cell = row[j]
+                for j, cell in enumerate(row[1:], start=1):  # Le colonne da B a H (ruolo1 a ruolo7)
                     if cell.strip().lower() == ruolo.strip().lower():  # Normalizza il ruolo
                         print(f"Ruolo trovato: {cell}")  # Debug per verificare se il ruolo è stato trovato
                         # Aggiorna il valore nella cella (i, j)
-                        update_range = f"Foglio1!{chr(65 + j)}{i + 1}"  # Calcola la cella da aggiornare
+                        update_range = f"Foglio1!{chr(65 + j)}{i + 2}"  # Calcola la cella da aggiornare (aggiungiamo 2 per saltare l'intestazione)
                         body = {
                             'values': [[ore]]
                         }
@@ -43,6 +44,9 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
                         print(f"Ora aggiornate con successo per {nome} nel ruolo di {ruolo}: {ore} ore.")
                         return
         print(f"Nome o ruolo non trovati nel foglio.")
+        
+    except Exception as e:
+        print(f"Errore nell'aggiornamento del foglio: {e}")
         
     except Exception as e:
         print(f"Errore nell'aggiornamento del foglio: {e}")
