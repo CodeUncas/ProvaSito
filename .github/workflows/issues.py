@@ -1,11 +1,17 @@
 import requests
 import json
 import os
+from googlesheetScript import *
 
 
 issue_number = os.getenv('ISSUE_NUMBER')
 token = os.getenv('PYTHON_TOKEN')
 urlGithubIssue =  f'https://api.github.com/repos/CodeUncas/ProvaSito/issues/{issue_number}'
+
+# SECONDO PROCESSO
+SPREADSHEET_ID = 'https://docs.google.com/spreadsheets/d/1xmtRTVE1byAcSEzIK11N_ePO2ruVTPVJaMGrDqfBcaQ/edit?gid=0#gid=0'  # Inserisci l'ID del tuo foglio di calcolo
+SHEETS_KEY = os.getenv('SHEETS_TOKEN')  # Inserisci la tua API Key
+############
 
 # https://api.github.com/repos/OWNER/REPO/issues/ISSUE_NUMBER
 
@@ -15,14 +21,25 @@ headers = {
     "X-GitHub-Api-Version": "2022-11-28"
 
 }
+def getIssueDetails(urlParam,headerParam):
+    response = requests.get(urlParam,headers=headerParam)
 
-response = requests.get(urlGithubIssue,headers=headers)
+    JsonResponse = response.json();
+    
+    dictWithInfo = {
+        'TitoloIssue' : JsonResponse['title'],
+        'DescrizioneIssue' : JsonResponse['body'],
+        'AssigneeIssue' : JsonResponse['assignees'][0]['login'],
+        'LabelIssue' : JsonResponse['labels'][0]['name']
+    }
+    return dictWithInfo
 
-JsonResponse = response.json();
+def main():
+    finalDictionary = getIssueDetails(urlGithubIssue,headers)
+    service = build_sheets_service()
+    
+    # Esegui l'aggiornamento
+    update_hours(service, SPREADSHEET_ID, finalDictionary['AssigneeIssue'], finalDictionary['ruolo'], 2 )
 
-TitoloIssue = JsonResponse['title']
-DescrizioneIssue = JsonResponse['body']
-AssigneeIssue = JsonResponse['assignees'][0]['login']
-LabelIssue = JsonResponse['labels'][0]['name']
-
-print(TitoloIssue + "\n" + DescrizioneIssue + "\n" + AssigneeIssue + "\n" + "LabelIssue");
+if __name__ == '__main__':
+    main()
