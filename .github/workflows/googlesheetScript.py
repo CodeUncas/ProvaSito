@@ -28,7 +28,6 @@ def build_sheets_service():
     # Costruisci il servizio per Google Sheets
     service = build('sheets', 'v4', credentials=credentials)
     return service
-# Funzione per aggiornare il numero di ore
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
         # Intervallo da leggere dal foglio (completo)
@@ -63,11 +62,16 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
         for i, row in enumerate(values[1:], start=1):  # Inizia dalla seconda riga (index 1)
             if row and row[0].strip().lower() == nome.strip().lower():  # Normalizza il nome
                 print(f"Nome trovato: {row[0]}")  # Debug per verificare se il nome è stato trovato
-                # Aggiorna il valore nella cella corrispondente a nome e ruolo
-                update_range = f"Foglio1!{chr(65 + role_column)}{i + 1}"  # Calcola la cella da aggiornare
+                
+                # Calcola l'intervallo per aggiornare la cella corrispondente
+                # La colonna per il ruolo è `role_column` e la riga è `i + 3` (perché l'intervallo inizia dalla riga 3)
+                update_range = f"Foglio1!{chr(65 + role_column + 1)}{i + 3}"  # +1 perché il range inizia da B, non A, e +3 per offset della riga
+
                 body = {
                     'values': [[ore]]
                 }
+
+                # Esegui l'aggiornamento nella cella corretta
                 sheet.values().update(spreadsheetId=spreadsheet_id, range=update_range, body=body, valueInputOption="RAW").execute()
                 print(f"Ora aggiornate con successo per {nome} nel ruolo di {ruolo}: {ore} ore.")
                 return
@@ -76,3 +80,4 @@ def update_hours(service, spreadsheet_id, nome, ruolo, ore):
 
     except Exception as e:
         print(f"Errore nell'aggiornamento del foglio: {e}")
+
