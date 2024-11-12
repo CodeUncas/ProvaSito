@@ -1,17 +1,33 @@
 import os
+import tempfile
+import json
 from googleapiclient.discovery import build
-from google.auth.transport.requests import Request
 from google.oauth2.service_account import Credentials
 
-# Funzione per costruire il servizio Google Sheets con le credenziali di servizio
-def build_sheets_service(credentials_json):
-    # Carica le credenziali dal file JSON
-    credentials = Credentials.from_service_account_file(credentials_json, scopes=["https://www.googleapis.com/auth/spreadsheets"])
+# Funzione per costruire il servizio Google Sheets con le credenziali di servizio da variabile d'ambiente
+def build_sheets_service():
+    # Recupera la variabile d'ambiente contenente le credenziali
+    credentials_json = os.getenv('GOOGLE_SHEET_CREDENTIALS')
+    if not credentials_json:
+        raise ValueError("La variabile d'ambiente 'GOOGLE_SHEET_CREDENTIALS' non è definita.")
     
-    # Costruisce il servizio per Google Sheets
+    # Converti la stringa JSON in un dizionario Python
+    credentials_dict = json.loads(credentials_json)
+    
+    # Crea un file temporaneo con il contenuto delle credenziali
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        json.dump(credentials_dict, temp_file)  # Scrive il contenuto delle credenziali nel file
+        temp_file.close()  # Chiude il file temporaneo
+        
+        # Carica le credenziali dal file temporaneo
+        credentials = Credentials.from_service_account_file(temp_file.name, scopes=["https://www.googleapis.com/auth/spreadsheets"])
+
+    # Rimuovi il file temporaneo
+    os.remove(temp_file.name)
+
+    # Costruisci il servizio per Google Sheets
     service = build('sheets', 'v4', credentials=credentials)
     return service
-
 # Funzione per aggiornare il numero di ore
 def update_hours(service, spreadsheet_id, nome, ruolo, ore):
     try:
