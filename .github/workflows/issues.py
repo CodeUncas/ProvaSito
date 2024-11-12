@@ -9,7 +9,7 @@ token = os.getenv('PYTHON_TOKEN')
 urlGithubIssue =  f'https://api.github.com/repos/CodeUncas/ProvaSito/issues/{issue_number}'
 
 # SECONDO PROCESSO
-SPREADSHEET_ID = 'https://docs.google.com/spreadsheets/d/1xmtRTVE1byAcSEzIK11N_ePO2ruVTPVJaMGrDqfBcaQ/edit?gid=0#gid=0'  # Inserisci l'ID del tuo foglio di calcolo
+SPREADSHEET_ID = '1xmtRTVE1byAcSEzIK11N_ePO2ruVTPVJaMGrDqfBcaQ'  # Inserisci l'ID del tuo foglio di calcolo
 SHEETS_KEY = os.getenv('SHEETS_TOKEN')  # Inserisci la tua API Key
 ############
 
