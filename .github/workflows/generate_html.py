@@ -50,13 +50,13 @@ def generate_html():
             # Prima i file con data
             for pdf_file, _ in pdf_files_with_dates:
                 # Rimuovi l'estensione .pdf dal nome del file
-                link_text = os.path.splitext(pdf_file)[0]
+                link_text = os.path.splitext(pdf_file)[0].replace('_', ' ')
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
             # Poi i file senza data
             for pdf_file in pdf_files_without_dates:
                 # Rimuovi l'estensione .pdf dal nome del file
-                link_text = os.path.splitext(pdf_file)[0]
+                link_text = os.path.splitext(pdf_file)[0].replace('_', ' ')
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
             html_content += "</ul>\n"
@@ -107,11 +107,11 @@ def generate_html():
             pdf_links_with_dates.sort(key=lambda x: x[1], reverse=True)
 
             for pdf_file, _ in pdf_links_with_dates:
-                link_text = os.path.splitext(pdf_file)[0]
+                link_text = os.path.splitext(pdf_file)[0].replace('_', ' ')
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
             for pdf_file in pdf_links_without_dates:
-                link_text = os.path.splitext(pdf_file)[0]
+                link_text = os.path.splitext(pdf_file)[0].replace('_', ' ')
                 html_content += f'<li><a href="{pdf_file}">{link_text}</a></li>\n'
 
             html_content += "</ul>\n"
